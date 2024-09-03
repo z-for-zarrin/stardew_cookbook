@@ -1,6 +1,7 @@
 package com.example.stardew_cookbook.models;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,8 @@ public class Ingredient{
     private String name;
 
     // many to many relationship
+    @JsonIgnoreProperties({"recipes"})
+    @ManyToMany(mappedBy = "ingredients")
     private List<Recipe> recipes;
 
     // CONSTRUCTORS

@@ -1,6 +1,7 @@
 package com.example.stardew_cookbook.models;
 
 import jakarta.persistence.*;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +17,13 @@ public class Recipe extends Ingredient{
     private String name;
 
     // many to many relationship
+    @JsonIgnoreProperties({"recipes"})
+    @ManyToMany
+    @JoinTable(
+        name = "recipes_ingredients",
+        joinColumns = @JoinColumn(name = "recipe_id"),
+        inverseJoinColumns = @JoinColumn(name = "ingredient_id")
+    )
     private List<Ingredient> ingredients;
 
     // CONSTRUCTOR
@@ -50,6 +58,12 @@ public class Recipe extends Ingredient{
 
     public void setIngredients(List<Ingredient> ingredients){
         this.ingredients = ingredients;
+    }
+
+    // CUSTOM METHODS
+
+    public void addIngredient(Ingredient ingredient){
+        this.ingredients.add(ingredient);
     }
 
 }
